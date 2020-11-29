@@ -17,10 +17,7 @@ import android.content.Intent as Intent1
 
 val listOfSongs = arrayListOf<String>()
 
-
 class MainActivity : AppCompatActivity() {
-
-
 
     private val songsArray = arrayOf("Red", "Back to December", "All to Well",
             "Speak Now", "Begin Again", "Stay Stay Stay" , "22", "Everything Has Changed",
