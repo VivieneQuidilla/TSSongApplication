@@ -20,8 +20,6 @@ val listOfSongs = arrayListOf<String>()
 
 class MainActivity : AppCompatActivity() {
 
-
-
     private val songsArray = arrayOf("Red", "Back to December", "All to Well",
             "Speak Now", "Begin Again", "Stay Stay Stay" , "22", "Everything Has Changed",
             "Fifteen", "Love Story" , "White Horse", "Forever and Always" ,
@@ -50,8 +48,6 @@ class MainActivity : AppCompatActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -70,11 +66,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent1(this, QueueActivity::class.java))
                 true
 
-
-
             }
-
-
+            R.id.go_to_database ->{
+                startActivity(Intent1(this, DatabaseActivity::class.java))
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }
@@ -96,11 +92,11 @@ class MainActivity : AppCompatActivity() {
                 })
                 snackbar.show()
 
-
                 true
             }
             else-> super.onContextItemSelected(item)
 
         }
     }
+
 }
