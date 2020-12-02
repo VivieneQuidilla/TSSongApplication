@@ -20,17 +20,26 @@ val listOfSongs = arrayListOf<String>()
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var songListView: ListView
+    lateinit var openHelper: OpenHelper
+    lateinit var songList: MutableList<SongTable>
+    lateinit var adapter: ArrayAdapter<SongTable>
+
+    /*
     private val songsArray = arrayOf("Red", "Back to December", "All to Well",
             "Speak Now", "Begin Again", "Stay Stay Stay" , "22", "Everything Has Changed",
             "Fifteen", "Love Story" , "White Horse", "Forever and Always" ,
             "If This Was a Movie", "Sparks Fly", "You Belong With Me")
 
+     */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsArray)
+        openHelper = OpenHelper(this)
+        songList = openHelper.read()
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, songList)
         val songsQueueListView = findViewById<ListView>(R.id.songsQueueListView)
         songsQueueListView.adapter = adapter
 
@@ -83,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.add_to_queue -> {
                 val info = item.menuInfo as AdapterContextMenuInfo
-                listOfSongs.add(songsArray[info.position])
+                listOfSongs.add(songList[info.position].toString())
                 true
                 val snackbar = Snackbar.make(this.findViewById(R.id.songsQueueListView),
                         "Navigate To Queue", Snackbar.LENGTH_LONG)
