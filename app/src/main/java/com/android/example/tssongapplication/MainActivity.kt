@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import com.google.android.material.snackbar.Snackbar
@@ -20,10 +21,10 @@ val listOfSongs = arrayListOf<String>()
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var songListView: ListView
-    lateinit var openHelper: OpenHelper
-    lateinit var songList: MutableList<SongTable>
-    lateinit var adapter: ArrayAdapter<SongTable>
+    lateinit var songsListView: ListView
+    lateinit var songsTableHandler: SongsTableHandler
+    lateinit var song: MutableList<Song>
+    lateinit var adapter: ArrayAdapter<Song>
 
     /*
     private val songsArray = arrayOf("Red", "Back to December", "All to Well",
@@ -37,13 +38,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        openHelper = OpenHelper(this)
-        songList = openHelper.read()
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, songList)
-        val songsQueueListView = findViewById<ListView>(R.id.songsQueueListView)
-        songsQueueListView.adapter = adapter
+        songsListView = findViewById(R.id.songsListView)
 
-        registerForContextMenu(songsQueueListView)
+        songsTableHandler = SongsTableHandler(this)
+
+        song = songsTableHandler.
+
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, song)
+        songsListView.adapter = adapter
+
+        registerForContextMenu(songsListView)
 
     }
 
@@ -51,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater = menuInflater
         inflater.inflate(R.menu.home_menu, menu)
+        inflater.inflate(R.menu.database_menu, menu )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,26 +91,39 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.song_detail_menu, menu)
+    }
+
     override fun onContextItemSelected(item: MenuItem): Boolean {
+        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        return when(item.itemId){
+            R.id.edit_detail -> {
 
-        return when(item.itemId) {
+                val song_id = song[info.position]
 
-            R.id.add_to_queue -> {
-                val info = item.menuInfo as AdapterContextMenuInfo
-                listOfSongs.add(songList[info.position].toString())
-                true
-                val snackbar = Snackbar.make(this.findViewById(R.id.songsQueueListView),
-                        "Navigate To Queue", Snackbar.LENGTH_LONG)
-                snackbar.setAction("Go", View.OnClickListener {
-                    startActivity(Intent1(this, QueueActivity::class.java))
-                })
-                snackbar.show()
+                val intent = android.content.Intent(applicationContext, EditSongActivity::class.java)
+                intent.putExtra("song_id", song_id)
 
+                startActivity(intent)
                 true
             }
-            else-> super.onContextItemSelected(item)
-
+            R.id.delete_detail -> {
+                val song = song[info.position]
+                if(songsTableHandler.delete()){
+                    song.removeAt(info.position)
+                    adapter.notifyDataSetChanged()
+                    Toast.makeText(applicationContext, "Song was deleted", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(applicationContext, "Error!", Toast.LENGTH_SHORT).show()
+                }
+                true
+            }
+            else -> super.onContextItemSelected(item)
         }
+    }
     }
 
 }

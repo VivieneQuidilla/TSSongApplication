@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".EditSongActivity">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
         <TableRow>
             <EditText
-                android:id="@+id/song_name"
+                android:id="@+id/edit_song_title"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
@@ -31,7 +31,7 @@
         <TableRow>
 
             <EditText
-                android:id="@+id/song_artist"
+                android:id="@+id/edit_song_artist"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
@@ -49,7 +49,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/song_album"
+                android:id="@+id/edit_song_album"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
@@ -78,11 +78,11 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/add_song"
+                android:id="@+id/add_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="Add Songs"
+                android:text="Edit Title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/edit_song" />
         </TableRow>
@@ -94,12 +94,12 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/show_song"
+                android:id="@+id/show_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Show All"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/show_song"
+                app:layout_constraintEnd_toStartOf="@+id/show_all"
                 app:layout_constraintStart_toStartOf="parent" />
         </TableRow>
 

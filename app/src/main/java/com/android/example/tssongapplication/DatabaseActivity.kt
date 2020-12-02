@@ -1,90 +1,104 @@
 package com.android.example.tssongapplication
 
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteException
 import android.os.Bundle
-import android.system.Os.read
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class DatabaseActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_database)
-
-        val songName = findViewById<EditText>(R.id.song_name)
-        val songArtist = findViewById<EditText>(R.id.song_artist)
-        val songAlbum = findViewById<EditText>(R.id.song_album)
-
-        val add_song = findViewById<TextView>(R.id.add_song)
-
-        add_song.setOnClickListener {
-            val dbHandler = OpenHelper(this)
-            val song = SongTable(
-                songName.text.toString(),
-                songArtist.text.toString(),
-                songAlbum.text.toString()
-            )
-            if (dbHandler.addSong(song)) {
-                Toast.makeText(
-                    this,
-                    songName.text.toString() + " Added to Songs",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                Toast.makeText(
-                    this,
-                    songName.text.toString() + " Not Added to Songs",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
- /*
-        val edit_song = findViewById<TextView>(R.id.edit_song)
-        edit_song.setOnClickListener {
-            val dbHandler = OpenHelper(this, null)
-            val edit = SongTable(
-                songName.text.toString(),
-                songArtist.text.toString(),
-                songAlbum.text.toString()
-            )
-            dbHandler.editSong(edit)
-            Toast.makeText(this, songName.text.toString() + " Edited to Songs", Toast.LENGTH_LONG)
-                .show()
-        }
-        val delete_song = findViewById<TextView>(R.id.delete_song)
-        delete_song.setOnClickListener {
-            val dbHandler = OpenHelper(this, null)
-            val delete = SongTable(
-                songName.text.toString(),
-                songArtist.text.toString(),
-                songAlbum.text.toString()
-            )
-            dbHandler.deleteSong(delete)
-            Toast.makeText(
-                this,
-                songName.text.toString() + " Deleted from Songs",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-
-        fun clearFields() {
-            songName.text.clear()
-            songArtist.text.clear()
-            songAlbum.text.clear()
-        }
-
-  */
+    companion object{
+        private val DATABASE_VERSION = 1
+        private val DATABASE_NAME = "songs_database"
+        private val TABLE_NAME = "songs"
+        private val COL_ID = "id"
+        private val COL_TITLE = "title"
+        private val COL_ARTIST = "artist"
+        private val COL_ALBUM = "album"
     }
 
+    override fun onCreate(db: SQLiteDatabase?) {
+        val query = "CREATE TABLE " + TABLE_NAME +" ("+ COL_ID +" INTEGER PRIMARY KEY, "+ COL_TITLE +" TEXT, "+ COL_ARTIST +" TEXT, "+ COL_ALBUM +" TEXT)"
+        db?.execSQL(query)
+    }
 
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        db!!.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME)
+        onCreate(db)
+    }
+    fun create(song: Song): Boolean{
+
+        val database = this.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(COL_TITLE, song.title)
+        contentValues.put(COL_ARTIST, song.artist)
+        contentValues.put(COL_ALBUM, song.album)
+
+        val result = database.insert(TABLE_NAME, null, contentValues)
+
+        if(result == (0).toLong()){
+            return false
+        }
+        return true
+    }
+
+    fun update(song: Song): Boolean {
+
+        val database = this.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(COL_TITLE, song.title)
+        contentValues.put(COL_ARTIST, song.artist)
+        contentValues.put(COL_ALBUM, song.album)
+
+        val result = database.update(TABLE_NAME, contentValues, "id = " + song.id, null)
+
+        if(result == 0){
+            return false
+        }
+        return true
+    }
+
+    fun delete(song: Song): Boolean {
+        val database = this.writableDatabase
+
+        val result = database.delete(TABLE_NAME, "id = ${song.id}", null)
+
+        if(result == 0){
+            return false
+        }
+        return true
+    }
+
+    fun readOne(song_id: Int): Song {
+        var song: Song = Song(0, "", "", "")
+        val query = "SELECT * FROM $TABLE_NAME WHERE id = $song_id"
+        val database = this. readableDatabase
+        var cursor: Cursor? = null
+        try {
+            cursor = database.rawQuery(query, null)
+        } catch (e: SQLiteException){
+            return song
+        }
+
+        var id: Int
+        var title: String
+        var artist: String
+        var album: String
+        if(cursor.moveToFirst()){
+            id = cursor.getInt(cursor.getColumnIndex(COL_ID))
+            title = cursor.getString(cursor.getColumnIndex(COL_TITLE))
+            artist = cursor.getString(cursor.getColumnIndex(COL_ARTIST))
+            album = cursor.getString(cursor.getColumnIndex(COL_ALBUM))
+            song = Song(id, title, artist, album)
+        }
+        return song
+    }
 }
 
 
