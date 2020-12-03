@@ -15,13 +15,17 @@ import androidx.appcompat.app.AppCompatActivity
 
 class DatabaseActivity : AppCompatActivity() {
 
+    lateinit var songName: EditText
+    lateinit var songArtist: EditText
+    lateinit var  songAlbum: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_database)
 
-        val songName = findViewById<EditText>(R.id.song_name)
-        val songArtist = findViewById<EditText>(R.id.song_artist)
-        val songAlbum = findViewById<EditText>(R.id.song_album)
+        songName = findViewById(R.id.song_name)
+        songArtist = findViewById(R.id.song_artist)
+        songAlbum = findViewById(R.id.song_album)
 
         val add_song = findViewById<TextView>(R.id.add_song)
 
@@ -42,10 +46,11 @@ class DatabaseActivity : AppCompatActivity() {
                 Toast.makeText(
                     this,
                     songName.text.toString() + " Not Added to Songs",
-                    Toast.LENGTH_LONG
-                ).show()
+                    Toast.LENGTH_LONG).show()
             }
+            clearFields()
         }
+
  /*
         val edit_song = findViewById<TextView>(R.id.edit_song)
         edit_song.setOnClickListener {
@@ -82,6 +87,12 @@ class DatabaseActivity : AppCompatActivity() {
         }
 
   */
+    }
+
+    private fun clearFields() {
+        songName.text.clear()
+        songArtist.text.clear()
+        songAlbum.text.clear()
     }
 
 
