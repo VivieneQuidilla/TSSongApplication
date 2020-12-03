@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/go_to_songs"
-        android:title="Songs">
-    </item>
-    <item android:id="@+id/go_to_albums"
-        android:title="Albums">
-    </item>
-    <item android:id="@+id/go_to_queues"
-        android:title="Queue"
-        app:showAsAction="ifRoom">
-    </item>
-    <item android:id="@+id/go_to_database"
-        android:title="Add Song">
-
-    </item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/create_song"
+        android:title="Add a song"/>
+    <item android:id="@+id/display_song"
+        android:title="Display Songs"/>
 </menu>
