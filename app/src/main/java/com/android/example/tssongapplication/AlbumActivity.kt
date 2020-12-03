@@ -8,14 +8,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.GridView
-import android.widget.ImageView
+import android.widget.*
 
 
 class AlbumActivity : AppCompatActivity() {
-
 
     private var arrayList = ArrayList<AlbumItem>()
     var images = intArrayOf(R.drawable.fearless_album, R.drawable.red_album, R.drawable.speak_now_album)
@@ -39,8 +35,8 @@ class AlbumActivity : AppCompatActivity() {
         }
     }
     class AlbumAdapter(
-        var albumItem: ArrayList<AlbumItem>,
-        var context: Context
+            var albumItem: ArrayList<AlbumItem>,
+            var context: Context
 
     ): BaseAdapter(){
 

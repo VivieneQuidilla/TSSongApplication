@@ -3,12 +3,6 @@ package com.android.example.tssongapplication
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
-
-import android.util.Log
-import android.view.ContextMenu
-import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 

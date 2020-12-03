@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.system.Os.remove
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
@@ -24,13 +25,15 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 
-
-
 lateinit var notificationManager: NotificationManager
 lateinit var notificationChannel: NotificationChannel
 lateinit var builder: Notification.Builder
-private val channelId="com.example.uielements2"
-private val description="Notification"
+lateinit var songsTableHandler: SongsTableHandler
+lateinit var adapter: ArrayAdapter<Song>
+private val channelId= "com.example.uielements2"
+private val description= "Notification"
+
+
 class QueueActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,32 +43,32 @@ class QueueActivity : AppCompatActivity() {
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val Intent = Intent(this, QueueActivity::class.java)
         val pendingIntent =
-            PendingIntent.getActivity(this, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntent.getActivity(this, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        var list: List<String>? = listOfSongs
+        var songsListView: List<String>? = listOfSongs
 
-        if (list.orEmpty().isEmpty() && (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)) {
+        if (songsListView.orEmpty().isEmpty() && (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)) {
             notificationChannel =
-                NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
+                    NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.GREEN
             notificationChannel.enableVibration(false)
             notificationManager.createNotificationChannel(notificationChannel)
 
             builder = Notification.Builder(this, channelId)
-                .setContentTitle("UIElementsPart 2 Notification")
-                .setContentText("The Queue is Empty")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher))
-                .setContentIntent(pendingIntent)
+                    .setContentTitle("UIElementsPart 2 Notification")
+                    .setContentText("The Queue is Empty")
+                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                    .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher))
+                    .setContentIntent(pendingIntent)
 
         } else {
             builder = Notification.Builder(this)
-                .setContentTitle("test")
-                .setContentText("Notification")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher))
-                .setContentIntent(pendingIntent)
+                    .setContentTitle("test")
+                    .setContentText("Notification")
+                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                    .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher))
+                    .setContentIntent(pendingIntent)
         }
         notificationManager.notify(1234, builder.build())
 
@@ -83,16 +86,14 @@ class QueueActivity : AppCompatActivity() {
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater = menuInflater
-        inflater.inflate(R.menu.remove, menu)
+        inflater.inflate(R.menu.song_detail_menu, menu)
     }
-
-
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
         return when(item.itemId) {
 
-            R.id.remove_songs -> {
+            R.id.delete_song -> {
                 val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
                 listOfSongs.removeAt(info.position)
                 true
@@ -104,9 +105,8 @@ class QueueActivity : AppCompatActivity() {
                 true
 
                 return true
-
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> super.onContextItemSelected(item)
         }
     }
 }
