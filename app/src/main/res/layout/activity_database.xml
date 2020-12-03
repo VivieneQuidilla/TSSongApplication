@@ -15,44 +15,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
         <TableRow>
-            <TextView
-                android:id="@+id/title_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/artist_view"
-                app:layout_constraintEnd_toStartOf="@+id/song_name"
-                app:layout_constraintHorizontal_bias="0.639"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.811" />
             <EditText
                 android:id="@+id/song_name"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
+                android:hint="Title"
                 android:inputType="textPersonName"
                 android:text=""
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.913" />
-
         </TableRow>
         <TableRow>
-            <TextView
-                android:id="@+id/artist_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="36dp"
-                android:text="Artist"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/album_view"
-                app:layout_constraintEnd_toStartOf="@+id/song_artist"
-                app:layout_constraintHorizontal_bias="0.576"
-                app:layout_constraintStart_toStartOf="parent" />
+
             <EditText
                 android:id="@+id/song_artist"
                 android:layout_width="300dp"
@@ -60,6 +38,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:ems="10"
+                android:hint="Artist"
                 android:inputType="textPersonName"
                 android:text=""
                 app:layout_constraintBottom_toTopOf="@+id/song_album"
@@ -71,18 +50,6 @@
             android:layout_height="match_parent"
             >
 
-            <TextView
-                android:id="@+id/album_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="400dp"
-                android:text="Albums"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/song_album"
-                app:layout_constraintHorizontal_bias="0.500"
-                app:layout_constraintStart_toStartOf="parent" />
-
             <EditText
                 android:id="@+id/song_album"
                 android:layout_width="300dp"
@@ -90,6 +57,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="388dp"
                 android:ems="10"
+                android:hint="Album"
                 android:inputType="textPersonName"
                 android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
