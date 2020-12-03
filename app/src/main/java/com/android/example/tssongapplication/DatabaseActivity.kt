@@ -51,10 +51,9 @@ class DatabaseActivity : AppCompatActivity() {
             clearFields()
         }
 
- /*
         val edit_song = findViewById<TextView>(R.id.edit_song)
         edit_song.setOnClickListener {
-            val dbHandler = OpenHelper(this, null)
+            val dbHandler = OpenHelper(this)
             val edit = SongTable(
                 songName.text.toString(),
                 songArtist.text.toString(),
@@ -64,9 +63,10 @@ class DatabaseActivity : AppCompatActivity() {
             Toast.makeText(this, songName.text.toString() + " Edited to Songs", Toast.LENGTH_LONG)
                 .show()
         }
+
         val delete_song = findViewById<TextView>(R.id.delete_song)
         delete_song.setOnClickListener {
-            val dbHandler = OpenHelper(this, null)
+            val dbHandler = OpenHelper(this)
             val delete = SongTable(
                 songName.text.toString(),
                 songArtist.text.toString(),
@@ -79,14 +79,6 @@ class DatabaseActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
         }
-
-        fun clearFields() {
-            songName.text.clear()
-            songArtist.text.clear()
-            songAlbum.text.clear()
-        }
-
-  */
     }
 
     private fun clearFields() {
@@ -94,8 +86,6 @@ class DatabaseActivity : AppCompatActivity() {
         songArtist.text.clear()
         songAlbum.text.clear()
     }
-
-
 }
 
 

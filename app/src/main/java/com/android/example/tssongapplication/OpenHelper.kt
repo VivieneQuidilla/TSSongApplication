@@ -77,38 +77,30 @@ class OpenHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         return list
     }
 
-    /*
+
     fun editSong(song: SongTable): Boolean {
         val db = this.writableDatabase
         val contentvalues = ContentValues()
         contentvalues.put(COLUMN_TITLE, song.title)
         contentvalues.put(COLUMN_ARTIST, song.artist)
         contentvalues.put(COLUMN_ALBUM, song.album)
-        val res = db.update(COLUMN_TITLE, contentvalues, "id = " + name.title, null)
-        db.close()
-        if (res == (0).toLong()) {
+
+        val res = db.update(TABLE_NAME, contentvalues, "id = " + song.title, null)
+
+        if (res == 0) {
             return true
         }
         return false
     }
+
     fun deleteSong(song: SongTable): Boolean {
         val db = this.writableDatabase
-        val contentvalues = ContentValues()
-        contentvalues.put(COLUMN_TITLE, song.title)
-        contentvalues.put(COLUMN_ARTIST, song.artist)
-        contentvalues.put(COLUMN_ALBUM, song.album)
-        val res = db.update(COLUMN_TITLE, contentvalues, "id = " + song.title, null)
+
+        val res = db.delete(TABLE_NAME, "id = " + song.title, null)
         db.close()
-        if (res == (0).toLong()) {
-            return false
+        if (res == 0) {
+            return true
         }
         return false
     }
-    fun showSongs(): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
-    }
-
-    }
-*/
 }
